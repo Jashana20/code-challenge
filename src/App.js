@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import RegionContainer from "./container/RegionContainer";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const regionEuropeUrl = "https://restcountries.eu/rest/v2/region/europe";
+const regionAsiaUrl = "https://restcountries.eu/rest/v2/region/asia";
+
+class App extends React.Component {
+  state = {
+    allInfoAsia: [],
+    allInfoEurope: [],
+  };
+
+  componentDidMount() {
+    fetch(regionAsiaUrl)
+      .then((res) => res.json())
+      .then((data) => this.setState({ allInfoAsia: data }));
+    fetch(regionEuropeUrl)
+      .then((res) => res.json())
+      .then((data) => this.setState({ allInfoEurope: data }));
+  }
+
+  render() {
+    return (
+      <div>
+        <RegionContainer
+          asianInfo={this.state.allInfoAsia}
+          europeInfo={this.state.allInfoEurope}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
+
